@@ -15,6 +15,14 @@ const db = mysql.createConnection({
   database: process.env.DATABASE,
 });
 
+const {
+  PORT = 5300,
+  NODE_ENV = 'development',
+
+} = process.env;
+
+const IN_PROD = NODE_ENV === 'production';
+
 const publicDirectory = path.join(__dirname, "./public");
 app.use(express.static(publicDirectory));
 
@@ -38,6 +46,4 @@ db.connect((error) => {
 app.use("/", require("./routes/pages"));
 app.use("/auth", require("./routes/auth"));
 
-app.listen(5005, () => {
-  console.log("Server started on Port 5005");
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
